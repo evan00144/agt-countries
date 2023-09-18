@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 
 export default function CountriesPage() {
   const [countries, setCountries] = useState<any>([]);
-  const [loading, setLoading] = useState<any>(false);
+  const [loading, setLoading] = useState<any>(true);
   const [filteredcountries, setFilteredCountries] = useState<any>([]);
   const [selected, setSelected] = useState<any>();
   const fetchCountries = () => {
@@ -17,8 +17,8 @@ export default function CountriesPage() {
         .then((value) => {
           setCountries(value);
           setFilteredCountries(value);
+          setLoading(false);
         });
-      setLoading(false);
     } catch (e) {
       setLoading(false);
       console.log(e);
@@ -164,8 +164,12 @@ export default function CountriesPage() {
           </div>
         ))}
 
-        {loading && (
-          <div className="text-center">
+       
+        
+        {filteredcountries.length === 0 && !loading && "No Countries Found"}
+      </div>
+      {loading && (
+          <div className="text-center w-full">
             <div role="status">
               <svg
                 aria-hidden="true"
@@ -187,8 +191,6 @@ export default function CountriesPage() {
             </div>
           </div>
         )}
-        {filteredcountries.length === 0 && !loading && "No Countries Found"}
-      </div>
     </div>
   );
 }
